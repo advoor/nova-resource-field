@@ -1,5 +1,5 @@
 {
-    "name": "advoor/nova-view-field",
+    "name": "advoor/nova-resource-field",
     "description": "A Laravel Nova field.",
     "keywords": [
         "laravel",
@@ -11,13 +11,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Advoor\\NovaViewField\\": "src/"
+            "Advoor\\NovaResourceField\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Advoor\\NovaViewField\\FieldServiceProvider"
+                "Advoor\\NovaResourceField\\FieldServiceProvider"
             ]
         }
     },

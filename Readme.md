@@ -1,4 +1,4 @@
-# Laravel Nova View Field
+# Laravel Nova Resource Field
 
 Created by [@advoor](https://github.com/advoor). 
 Based on the default [select field](https://nova.laravel.com/docs/2.0/resources/fields.html#select-field), to
@@ -14,7 +14,7 @@ composer require advoor/nova-view-field
 
 Publish the config file
 ```
-php artisan vendor:publish --provider="Advoor\NovaViewField\FieldServiceProvider"
+php artisan vendor:publish --provider="Advoor\NovaResourceField\FieldServiceProvider"
 ```
 
 You can now configure which directory which should be used in `nova-view-field.php`.
@@ -24,19 +24,19 @@ You can now configure which directory which should be used in `nova-view-field.p
 Add this `use` statement to the top of the your nova resource file:
 
 ```
-use Advoor\NovaViewField\NovaViewField;
+use Advoor\NovaResourceField\NovaResourceField;
 ```
 
 Use the field as below:
 
 ```
-NovaViewField::make('FieldName')
+NovaResourceField::make('FieldName')
 ```
 
 Similar to the Select field, the values can overwritten if required:
 
 ```
-NovaViewField::make('Template')->options(
+NovaResourceField::make('Template')->options(
     [
         'value' => 'Label'
     ]
