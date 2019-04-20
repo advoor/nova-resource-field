@@ -2,7 +2,6 @@
 
 namespace Advoor\NovaResourceField;
 
-use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Select;
 
 class NovaResourceField extends Select
@@ -40,22 +39,36 @@ class NovaResourceField extends Select
         $files = array_diff(scandir($directory), array('.', '..'));
 
         $options = collect($files)->map(function ($file) {
-            
-            // Skip directories
-            if (!Str::contains($file, '.php')) {
-                return null;
-            }
-
-            $formattedName = str_replace('.blade.php', '', $file);
-            $formattedName = str_replace('.', ' ', $formattedName);
-            $formattedName = ucfirst($formattedName);
+            $label = $this->formatLabel($file);
 
             return [
-                'label' => $formattedName,
+                'label' => $label,
                 'value' => $file
             ];
         })->filter()->toArray();
 
         return $options;
+    }
+
+    /**
+     * @param $label
+     * @return mixed|string
+     */
+    private function formatLabel($label)
+    {
+        if (config('nova-resource-field.formatLabel') === false) {
+            return $label;
+        }
+
+        $label = pathinfo($label, PATHINFO_FILENAME);
+        $label = str_replace([
+            '.blade.php',
+            '.',
+            '-',
+            '_'
+        ], ' ', $label);
+        $label = ucfirst(trim($label));
+
+        return $label;
     }
 }

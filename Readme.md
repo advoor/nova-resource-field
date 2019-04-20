@@ -2,7 +2,7 @@
 
 Created by [@advoor](https://github.com/advoor). 
 Based on the default [select field](https://nova.laravel.com/docs/2.0/resources/fields.html#select-field), to
-allow an easy way to select templates located in a specific directory.
+allow an easy way to select resources located in a specific directory.
 
 ## Installation
 
