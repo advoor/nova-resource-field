@@ -9,7 +9,7 @@ allow an easy way to select resources located in a specific directory.
 Install via composer:
 
 ```
-composer require advoor/nova-view-field
+composer require advoor/nova-resource-field
 ```
 
 Publish the config file
