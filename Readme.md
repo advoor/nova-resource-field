@@ -17,7 +17,7 @@ Publish the config file
 php artisan vendor:publish --provider="Advoor\NovaResourceField\FieldServiceProvider"
 ```
 
-You can now configure which directory which should be used in `nova-view-field.php`.
+You can now configure which directory which should be used in `nova-resource-field.php`.
 
 ## Usage:
 
