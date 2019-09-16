@@ -42,3 +42,15 @@ NovaResourceField::make('Template')->options(
     ]
 )
 ```
+
+Using more then one field? You can customize each field with it's own settings:
+
+```
+NovaResourceField::make('Template')
+    ->formatLabels(true)
+    ->default([
+        'value' => 'homepage',
+        'label' => 'Homepage'
+    ])
+    ->directory(resource_path('views/pages'))
+ ```          

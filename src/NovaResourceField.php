@@ -6,6 +6,9 @@ use Laravel\Nova\Fields\Select;
 
 class NovaResourceField extends Select
 {
+    private $formatLabel;
+    private $defaultOption;
+
     /**
      * The field's component.
      *
@@ -17,13 +20,16 @@ class NovaResourceField extends Select
     {
         parent::__construct($name, $attribute, $resolveCallback);
 
+        $this->formatLabel = config('nova-resource-field.formatLabel', false);
+        $this->defaultOption = config('nova-resource-field.default', [
+            'value' => '',
+            'label' => 'Choose one'
+        ]);
+
         $options = $this->getOptions();
 
         $this->withMeta([
-            'default' => config('nova-resource-field.default', [
-                'value' => '',
-                'label' => 'Choose one'
-            ]),
+            'default' => $this->defaultOption,
             'options' => collect($options ?? [])->map(function ($label, $value) {
                 return is_array($label) ? $label + ['value' => $value] : ['label' => $label, 'value' => $value];
             })->values()->all(),
@@ -31,11 +37,16 @@ class NovaResourceField extends Select
     }
 
     /**
+     * @var string|null
+     * 
      * @return mixed
      */
-    protected function getOptions()
+    protected function getOptions($directory = null)
     {
-        $directory = config('nova-resource-field.directory');
+        if (empty($directory)) {
+            $directory = config('nova-resource-field.directory');
+        }
+        
         $files = array_diff(scandir($directory), array('.', '..'));
 
         $options = collect($files)->map(function ($file) {
@@ -56,7 +67,7 @@ class NovaResourceField extends Select
      */
     private function formatLabel($label)
     {
-        if (config('nova-resource-field.formatLabel') === false) {
+        if ($this->formatLabel === false) {
             return $label;
         }
 
@@ -70,5 +81,40 @@ class NovaResourceField extends Select
         $label = ucfirst(trim($label));
 
         return $label;
+    }
+
+    /**
+     * Format labels
+     */
+    public function formatLabels($format) {
+        $this->formatLabel = (bool)$format;
+
+        return $this;
+    }
+
+    /**
+     * Set default option
+     */
+    public function default($defaultOption)
+    {
+        $this->defaultOption = $defaultOption;
+
+        return $this->withMeta([
+            'default' => $this->defaultOption
+        ]);
+    }
+
+    /**
+     * Use directory
+     */
+    public function directory(string $directory)
+    {
+        $options = $this->getOptions($directory);
+
+        return $this->withMeta([
+            'options' => collect($options ?? [])->map(function ($label, $value) {
+                return is_array($label) ? $label + ['value' => $value] : ['label' => $label, 'value' => $value];
+            })->values()->all(),
+        ]);
     }
 }
